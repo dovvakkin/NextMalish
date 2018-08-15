@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +22,7 @@ class VkDriver extends FirefoxDriver {
 
             webTask.findElement(By.xpath(".//a[1]")).click(); //go to vk
 
+            String parentWindow = getWindowHandle();
             Set<String> allWindows = getWindowHandles();
             for (String curWindow : allWindows) {
                 switchTo().window(curWindow);
@@ -32,7 +32,6 @@ class VkDriver extends FirefoxDriver {
             System.out.println(strTask);
 
             if (strTask.startsWith("Вступить в сообщество")) {
-                System.out.println(1);
                 joinGroup();
             } else if (strTask.startsWith("Добавить в друзья")) {
                 addToFriends();
@@ -40,24 +39,21 @@ class VkDriver extends FirefoxDriver {
                 makeRepost();
             }
             close();
+            switchTo().window(parentWindow);
             sleep(4000);
-            try {
-                hitroClick(webTask.findElement(By.xpath(".//a[2]"))); //check task
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            webTask.findElement(By.xpath(".//a[2]")).click(); //check task
         }
     }
 
-    private void tripleScroll() {
-        Actions chain = new Actions(this);
-        chain.keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).build().perform();
-    }
+//    private void tripleScroll() {
+//        Actions chain = new Actions(this);
+//        chain.keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).build().perform();
+//    }
 
-    private void hitroClick(WebElement elem) {
-        Actions link_presser = new Actions(this);
-        link_presser.moveToElement(elem, 2, 2).click().build().perform();
-    }
+//    private void hitroClick(WebElement elem) {
+//        Actions link_presser = new Actions(this);
+//        link_presser.moveToElement(elem, 2, 2).click().build().perform();
+//    }
 
     private void redirectToMVK() throws InterruptedException {
         sleep(2000);
@@ -70,17 +66,16 @@ class VkDriver extends FirefoxDriver {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//a[@onclick='return ajax.click(this, Like);']")).click();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
     private void joinGroup() throws InterruptedException {
         try {
             redirectToMVK();
-            System.out.println(2);
             sleep(5000);
             findElement(By.xpath("//a[@class='button wide_button']")).click();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

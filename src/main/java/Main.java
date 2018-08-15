@@ -6,6 +6,5 @@ public class Main {
         bot.vkLogin();
         bot.surfingLogin();
         bot.executeTasks();
-
     }
 }

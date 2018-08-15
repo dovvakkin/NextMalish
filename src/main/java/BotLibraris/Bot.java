@@ -56,11 +56,6 @@ public class Bot {
         sleep(3500);
         List<WebElement> tasks = driver.findElements(By.xpath("//div[@class='join-group']"));
 
-        //TODO logging
-        for(WebElement elem : tasks) {
-            System.out.println(elem.getAttribute("innerHTML"));
-        }
-
         driver.taskManager(tasks);
     }
 
