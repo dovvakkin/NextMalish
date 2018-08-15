@@ -1,3 +1,5 @@
+package BotLibraris;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -8,31 +10,42 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-public class VkDriver extends FirefoxDriver {
-    public void taskManager(List<WebElement> taskList) throws InterruptedException {
+class VkDriver extends FirefoxDriver {
+
+    void taskManager(List<WebElement> taskList) throws InterruptedException {
         findElement(By.tagName("html")).sendKeys(Keys.END); //scroll to end of page
 
-        for (String task:taskList) {
-            if (task.startsWith("Вступить в сообщество")) {
+        for (WebElement webTask : taskList) {
+            String strTask = webTask.findElement(By.xpath(".//span")).getText();
+            //String strTask = webTask.getAttribute("innerHTML");
+
+            //TODO logging
+            System.out.println(strTask);
+
+            if (strTask.startsWith("Вступить в сообщество")) {
+                System.out.println(1);
                 joinGroup();
-            }
-            else if (task.startsWith("Добавить в друзья")) {
+            } else if (strTask.startsWith("Добавить в друзья")) {
                 addToFriends();
-            }
-            else if (task.startsWith("Рассказать друзьям")) {
+            } else if (strTask.startsWith("Рассказать друзьям")) {
                 makeRepost();
             }
         }
     }
 
     private void tripleScroll() {
-        Actions chain = new Actions();
+        Actions chain = new Actions(this);
         chain.keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).keyDown(Keys.UP).keyUp(Keys.UP).perform();
+    }
+
+    private void hitroClick(WebElement elem) {
+        Actions link_presser = new Actions(this);
+        link_presser.moveToElement(elem, 2, 2);
     }
 
     private void redirectToMVK() throws InterruptedException {
         sleep(2000);
-        String link = getCurrentUrl().replace("https://vk.com/","https://m.vk.com/");
+        String link = getCurrentUrl().replace("https://vk.com/", "https://m.vk.com/");
         get(link);
     }
 
@@ -41,15 +54,18 @@ public class VkDriver extends FirefoxDriver {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//a[@onclick='return ajax.click(this, Like);']")).click();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void joinGroup() throws InterruptedException {
         try {
             redirectToMVK();
+            System.out.println(2);
             sleep(5000);
             findElement(By.xpath("//a[@class='button wide_button']")).click();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void addToFriends() throws InterruptedException {
@@ -59,15 +75,16 @@ public class VkDriver extends FirefoxDriver {
             findElement(By.xpath("//a[@class='button wide_button acceptFriendBtn']")).click();
         } catch (org.openqa.selenium.NoSuchElementException e) {
             findElement(By.xpath("//a[@class='button wide_button']")).click();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void makeRepost() throws InterruptedException {
         try {
             redirectToMVK();
             sleep(5000);
-            findElement(By.xpath( "//html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div[2]/div[4]/div/span[1]/a[2]/i")).click();
+            findElement(By.xpath("//html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div[2]/div[4]/div/span[1]/a[2]/i")).click();
             findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/div[2]/div/form/div[4]/input")).click();
-        } catch (Exception e) {}
+        } catch (Exception ignored) { }
     }
 }

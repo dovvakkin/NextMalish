@@ -1,3 +1,5 @@
+package BotLibraris;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -27,12 +29,10 @@ public class Bot {
         WebElement submit = driver.findElement(By.className("fi_row_new"));
         try {
             submit.click();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) { }
     }
 
-    public void serfingLogin() throws InterruptedException {
+    public void surfingLogin() throws InterruptedException {
         driver.get("https://vkserfing.ru");
         WebElement login = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[2]/div[1]/a[1]"));
         login.click();
@@ -47,9 +47,21 @@ public class Bot {
         }
     }
 
-    public List<WebElement> scanTasks() throws InterruptedException {
-        sleep(3000);
-        return driver.findElements(By.xpath("//div[@class='join-group']"));
+//    public List<WebElement> scanTasks() throws InterruptedException {
+//        sleep(3000);
+//        return driver.findElements(By.xpath("//div[@class='join-group']"));
+//    }
+
+    public void executeTasks() throws InterruptedException {
+        sleep(3500);
+        List<WebElement> tasks = driver.findElements(By.xpath("//div[@class='join-group']"));
+
+        //TODO logging
+        for(WebElement elem : tasks) {
+            System.out.println(elem.getAttribute("innerHTML"));
+        }
+
+        driver.taskManager(tasks);
     }
 
     public void gorshochekNeVari() {
