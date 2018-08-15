@@ -7,20 +7,33 @@ import java.util.List;
 
 import static java.lang.Thread.sleep;
 
-public class Bot {
+public class Bot implements Runnable {
     private String login, password;
     private VkDriver driver;
 
-    public Bot (String login, String password){
+    public Bot(String login, String password) {
         this.login = login;
         this.password = password;
         driver = new VkDriver();
     }
 
+    public void run() {
+        try {
+            while (true) {
+                vkLogin();
+                surfingLogin();
+                executeTasks();
+                sleep(70*60*1000);
+            }
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+
     public void vkLogin() {
         driver.get("https://m.vk.com/");
         WebElement textArea;
-        textArea= driver.findElement(By.name("email"));
+        textArea = driver.findElement(By.name("email"));
         textArea.sendKeys(login);
 
         textArea = driver.findElement(By.name("pass"));
@@ -29,7 +42,8 @@ public class Bot {
         WebElement submit = driver.findElement(By.className("fi_row_new"));
         try {
             submit.click();
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
     public void surfingLogin() throws InterruptedException {
@@ -40,7 +54,7 @@ public class Bot {
         try {
             WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
             close.click();
-        } catch (Exception e){
+        } catch (Exception e) {
             sleep(10000);
             WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
             close.click();
@@ -62,4 +76,5 @@ public class Bot {
     public void gorshochekNeVari() {
         driver.quit();
     }
+
 }
