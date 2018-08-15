@@ -1,18 +1,18 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 public class Bot {
     private String login, password;
-    private WebDriver driver;
+    private VkDriver driver;
 
     public Bot (String login, String password){
         this.login = login;
         this.password = password;
-        driver = new FirefoxDriver();
+        driver = new VkDriver();
     }
 
     public void vkLogin() {
@@ -25,7 +25,11 @@ public class Bot {
         textArea.sendKeys(password);
 
         WebElement submit = driver.findElement(By.className("fi_row_new"));
-        submit.click();
+        try {
+            submit.click();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void serfingLogin() throws InterruptedException {
@@ -36,18 +40,19 @@ public class Bot {
         try {
             WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
             close.click();
-        } finally {
+        } catch (Exception e){
             sleep(10000);
             WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
             close.click();
         }
     }
 
-    public void gorshochekNeVari() {
-        driver.quit();
+    public List<WebElement> scanTasks() throws InterruptedException {
+        sleep(3000);
+        return driver.findElements(By.xpath("//div[@class='join-group']"));
     }
 
-    public void serfLogin() {
-
+    public void gorshochekNeVari() {
+        driver.quit();
     }
 }
