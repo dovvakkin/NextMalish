@@ -75,6 +75,7 @@ class VkDriver extends FirefoxDriver {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//a[@class='button wide_button']")).click();
+            sleep(500);
         } catch (Exception ignored) {
         }
     }
@@ -84,8 +85,10 @@ class VkDriver extends FirefoxDriver {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//a[@class='button wide_button acceptFriendBtn']")).click();
+            sleep(500);
         } catch (org.openqa.selenium.NoSuchElementException e) {
             findElement(By.xpath("//a[@class='button wide_button']")).click();
+            sleep(500);
         } catch (Exception e) {
         }
     }
@@ -95,7 +98,9 @@ class VkDriver extends FirefoxDriver {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div[2]/div[4]/div/span[1]/a[2]/i")).click();
+            sleep(500);
             findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div/div[2]/div/form/div[4]/input")).click();
+            sleep(500);
         } catch (Exception ignored) {
         }
     }
