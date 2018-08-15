@@ -12,6 +12,7 @@ public class Main {
         Bot bot = new Bot("89258396534", "k0zhepnin@");
         Thread t1 = new Thread(bot);
         t1.start();
+        //TODO
         log.info("looooooooooogger");
         //t1.interrupt();
         //System.out.println("arbeit");

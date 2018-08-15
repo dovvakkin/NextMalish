@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
@@ -19,11 +20,20 @@ public class Bot implements Runnable {
 
     public void run() {
         try {
+            Random random = new Random();
+            int iterator = 0;
+            vkLogin();
+            surfingLogin();
             while (true) {
-                vkLogin();
-                surfingLogin();
-                executeTasks();
-                sleep(70*60*1000);
+                // for "user's night" imitation
+                if (iterator < 10) {
+                    executeTasks();
+                }
+
+                //TODO logging
+                iterator = ++iterator % 13;
+                int sleepTime = (random.nextInt(15) + 70) * 60 * 1000;
+                sleep(sleepTime);
             }
         } catch (InterruptedException ignored) {
         }
@@ -72,9 +82,4 @@ public class Bot implements Runnable {
 
         driver.taskManager(tasks);
     }
-
-    public void gorshochekNeVari() {
-        driver.quit();
-    }
-
 }
