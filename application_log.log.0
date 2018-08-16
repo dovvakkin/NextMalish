@@ -1,0 +1,8 @@
+Aug 16, 2018 1:15:59 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+INFO: Detected dialect: W3C
+Aug 16, 2018 1:16:25 PM BotLibraris.Bot run
+INFO: next executing in (min) 6    (iterator = 1) | now: 2018.08.16 13:16:25
+
+Aug 16, 2018 1:24:50 PM BotLibraris.Bot run
+INFO: next executing in (min) 6    (iterator = 2) | now: 2018.08.16 13:24:50
+

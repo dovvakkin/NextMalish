@@ -104,7 +104,7 @@ public class Bot implements Runnable {
             }
 
             //reload page to close alert
-            sleep(11 * 1000);
+            sleep(15 * 1000);
 
             // click close alert
 //            try {
@@ -126,7 +126,10 @@ public class Bot implements Runnable {
     }
 
     private void innerCheckMoneyFunc() {
-
+        String money = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div[1]/div[2]/p[2]/span[1]/b")).getText();
+        money = formatTime.format(new Date()) + ": " + money + "/n";
+//        TODO db
+        System.out.println(money);
         checkMoneyCall = false;
     }
 
