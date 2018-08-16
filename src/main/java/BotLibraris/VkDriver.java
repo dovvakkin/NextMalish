@@ -37,6 +37,8 @@ class VkDriver extends FirefoxDriver {
                 addToFriends();
             } else if (strTask.startsWith("Рассказать друзьям")) {
                 makeRepost();
+            } else if (strTask.startsWith("Поставить лайк ")) {
+                likeOnPage();
             }
             close();
             switchTo().window(parentWindow);
@@ -61,16 +63,16 @@ class VkDriver extends FirefoxDriver {
         get(link);
     }
 
-    private void likeOnPage() throws InterruptedException {
+    private void likeOnPage() {
         try {
             redirectToMVK();
             sleep(5000);
             findElement(By.xpath("//a[@onclick='return ajax.click(this, Like);']")).click();
-        } catch (Exception ignored) {
+        } catch (InterruptedException ignored) {
         }
     }
 
-    private void joinGroup() throws InterruptedException {
+    private void joinGroup() {
         try {
             redirectToMVK();
             sleep(5000);
@@ -89,11 +91,11 @@ class VkDriver extends FirefoxDriver {
         } catch (org.openqa.selenium.NoSuchElementException e) {
             findElement(By.xpath("//a[@class='button wide_button']")).click();
             sleep(500);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
-    private void makeRepost() throws InterruptedException {
+    private void makeRepost() {
         try {
             redirectToMVK();
             sleep(5000);
