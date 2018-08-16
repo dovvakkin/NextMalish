@@ -9,7 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         loggingConfiguration();
-        Bot bot = new Bot("89258396534", "k0zhepnin@");
+        //Bot bot = new Bot("+79258396534", "k0zhepnin@");
+        Bot bot = new Bot("+79164658740", "Marina");
         Thread t1 = new Thread(bot);
         t1.start();
         //t1.interrupt();

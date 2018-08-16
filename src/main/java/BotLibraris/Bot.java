@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,10 @@ public class Bot implements Runnable {
     private static Logger log = Logger.getLogger(Bot.class.getName());
     // data pattern: https://www.tutorialspoint.com/java/java_date_time.htm
     private SimpleDateFormat formatTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+    //todo mov to bd
+    private boolean isVerifiedInSurf = true;
+    private String email = "marina.mehmatova@rambler.ua";
 
     private String login, password;
     private VkDriver driver;
@@ -78,31 +83,57 @@ public class Bot implements Runnable {
             driver.get("https://vkserfing.ru");
             WebElement login = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[2]/div[1]/a[1]"));
             login.click();
-            sleep(3000);
-            try {
-                WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
-                close.click();
-            } catch (Exception e) {
-                sleep(10000);
-                WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
-                close.click();
+            if (!isVerifiedInSurf) {
+                sleep(3000);
+                String parentWindow = driver.getWindowHandle();
+                Set<String> allWindows = driver.getWindowHandles();
+                for (String curWindow : allWindows) {
+                    driver.switchTo().window(curWindow);
+                }
+
+                driver.findElement(By.xpath("/html/body/div/div/div/div[3]/div/div[1]/button[1]")).click();
+                sleep(3000);
+                driver.switchTo().window(parentWindow);
+
+                sleep(10 * 1000);
+                driver.get("https://vkserfing.ru");
+                WebElement emailFild = driver.findElement(By.xpath("/html/body/div[7]/table/tbody/tr/td/div/form/p/input[1]"));
+                emailFild.sendKeys(email);
+                driver.findElement(By.xpath("/html/body/div[7]/table/tbody/tr/td/div/form/p/input[2]")).click();
+                isVerifiedInSurf = true;
             }
+
+            //reload page to close alert
+            sleep(11 * 1000);
+
+            // click close alert
+//            try {
+//                sleep(3000);
+//                WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
+//                close.click();
+//            } catch (Exception e) {
+//                sleep(10000);
+//                WebElement close = driver.findElement(By.xpath("/html/body/div[6]/table/tbody/tr/td/div/div"));
+//                close.click();
+//            }
         } catch (InterruptedException e) {
             log.warning("did not log into surfing:  " + e.toString());
         }
     }
 
-    public void checkMoney(){
+    public void checkMoney() {
         checkMoneyCall = true;
     }
 
-    private void innerCheckMoneyFunc(){
+    private void innerCheckMoneyFunc() {
 
         checkMoneyCall = false;
     }
 
     public void executeTasks() {
         try {
+            //TODO EBITES
+            driver.get("https://vkserfing.ru/assignments");
             sleep(3500);
             List<WebElement> tasks = null;
             try {
