@@ -16,7 +16,7 @@ import static java.lang.Thread.sleep;
 public class Bot implements Runnable {
     private static Logger log = Logger.getLogger(Bot.class.getName());
     // data pattern: https://www.tutorialspoint.com/java/java_date_time.htm
-    private SimpleDateFormat formatTime = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
+    private SimpleDateFormat formatTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
     private String login, password;
     private VkDriver driver;
@@ -35,10 +35,11 @@ public class Bot implements Runnable {
         surfingLogin();
         while (true) {
             // for "user's night" imitation
-            if (iterator < 10) {
+            if (iterator < 10)
                 executeTasks();
-            }
 
+            if (checkMoneyCall)
+                innerCheckMoneyFunc();
             iterator = ++iterator % 13;
             int sleepTime = (random.nextInt(15) + 60) * 60 * 1000;
             //todo
@@ -95,8 +96,9 @@ public class Bot implements Runnable {
         checkMoneyCall = true;
     }
 
-    private void innerCheckMoney(){
+    private void innerCheckMoneyFunc(){
 
+        checkMoneyCall = false;
     }
 
     public void executeTasks() {

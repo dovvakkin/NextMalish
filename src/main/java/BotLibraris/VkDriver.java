@@ -18,7 +18,7 @@ import static java.lang.Thread.sleep;
 class VkDriver extends FirefoxDriver {
     private static Logger log = Logger.getLogger(Bot.class.getName());
     // data pattern: https://www.tutorialspoint.com/java/java_date_time.htm
-    private SimpleDateFormat formatTime = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
+    private SimpleDateFormat formatTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
     void taskManager(List<WebElement> taskList) throws InterruptedException {
         log.log(Level.FINE, "begin task performing: " + formatTime.format(new Date()));
